@@ -5,6 +5,8 @@ using System.Text;
 
 namespace meyn
 {
+
+
     class ManageAnimal
     {
         private static string connString = "Server=localhost;Database=petadoption;User ID=root;Password=;";
@@ -38,8 +40,8 @@ namespace meyn
                 return builder.ToString();
             }
         }
-
-        public static bool RegisterUser(string fullName, string email, string password)
+            
+        public static bool RegisterUser(string name, string email, string password)
         {
             string hashedPassword = HashPassword(password);
             using (MySqlConnection conn = new MySqlConnection(connString))
@@ -49,14 +51,50 @@ namespace meyn
 
                 using (var cmd = new MySqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@FullName", fullName);
+                    cmd.Parameters.AddWithValue("@FullName", name);
                     cmd.Parameters.AddWithValue("@Email", email);
                     cmd.Parameters.AddWithValue("@Password", hashedPassword);
 
                     int rowsAffected = cmd.ExecuteNonQuery();
-                    return rowsAffected > 0;
+                    if (rowsAffected > 0)
+                    {
+                        loginreg.name = name;
+                        loginreg.email = email;
+                        return true;
+                    }
+                    return false;
                 }
             }
+        }
+
+        public static bool LoginUser(string email, string password)
+        {
+            using (MySqlConnection conn = new MySqlConnection(connString))
+            {
+                conn.Open();
+                string query = "SELECT FullName, Password FROM users WHERE Email = @Email";
+
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Email", email);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string name = reader["FullName"].ToString();
+                            string storedPassword = reader["Password"].ToString();
+
+                                loginreg.name = name;
+                                loginreg.email = email;
+                                loginreg.isLoggedIn = true;
+                                return true;
+
+                        }
+                    }
+                }
+            }
+            return false;
         }
 
         public static bool ValidateLogin(string email, string password)
