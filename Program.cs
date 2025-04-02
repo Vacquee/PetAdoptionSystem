@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Net;
 using System.Net.Mail;
 
@@ -6,6 +7,9 @@ namespace meyn;
 
 public class process
 {
+   
+
+    
     public static void choice1()
     {
         int choice = 0;
@@ -64,10 +68,12 @@ public class process
         }
     }
 
+   
+
     public static void choice2()
     {
         int choice = 0;
-        ManageAnimal manageAnimal = new ManageAnimal();
+        ManageAnimal manageAnimal = new ManageAnimal(); 
 
         while (choice != 9)
         {
@@ -113,7 +119,7 @@ public class process
                         inside.updateMedicalHistory();
                         break;
                     case 9:
-                        Console.WriteLine(@"
+                        Console.WriteLine(@" 
 
 
                                          _____  _                    _                                   ___                                                 _    _                ___          _       _____      _                _                        ___                 _                        
@@ -209,9 +215,8 @@ public class loginreg
 ");
 
         Console.Write("Enter your Full Name: ");
-        string fullName = Console.ReadLine();
+        name = Console.ReadLine();
 
-        string email;
         while (true)
         {
             Console.Write("Enter your Email Address: ");
@@ -248,8 +253,9 @@ public class loginreg
 
             if (userCode == verificationCode)
             {
-                if (ManageAnimal.RegisterUser(fullName, email, password))
+                if (ManageAnimal.RegisterUser(name, email, password))
                 {
+                    isRegistered = true;
                     Show3DLoadingAnimation();
                     Console.Clear();
                     Console.WriteLine("\nAccount Registered and Verified Successfully!\n");
@@ -283,7 +289,7 @@ public class loginreg
 ");
 
         Console.Write("Enter your Email Address: ");
-        string email = Console.ReadLine();
+        loginreg.email = Console.ReadLine();
 
         Console.Write("Enter your Password: ");
         string password = "";
@@ -436,7 +442,7 @@ public class emailSetup
 
 
 
-public class inside
+ public class inside
 {
     public static void showInside()
     {
@@ -472,13 +478,14 @@ public class inside
         Console.Clear();
         Console.WriteLine("\n======= View Account Information =======");
         Console.WriteLine($"Full Name: {loginreg.name}");
-        Console.WriteLine($"Email Address: {loginreg.email}\n");
+        Console.WriteLine($"Email Address: {loginreg.email}\n"); 
     }
+
 
     public static void updateAccount()
     {
         Console.Clear();
-        Console.WriteLine(@"\n 
+        Console.WriteLine(@"
 
                     ██╗   ██╗██████╗ ██████╗  █████╗ ████████╗███████╗     █████╗  ██████╗ ██████╗ ██████╗ ██╗   ██╗███╗   ██╗████████╗    ██╗███╗   ██╗███████╗ ██████╗ ██████╗ ███╗   ███╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗    
                     ██║   ██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██╔════╝    ██╔══██╗██╔════╝██╔════╝██╔═══██╗██║   ██║████╗  ██║╚══██╔══╝    ██║████╗  ██║██╔════╝██╔═══██╗██╔══██╗████╗ ████║██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║    
